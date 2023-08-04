@@ -1,44 +1,97 @@
 import React from "react";
-import { Box, Flex, Text, Link } from "@chakra-ui/react";
-import CartWidget from "./CartWidget";
+import { Box, Flex, Image } from "@chakra-ui/react";
+import { FiShoppingCart } from "react-icons/fi";
+import { Link } from "react-router-dom";
+import { useCartContext } from "../CartContext";
+import { motion } from "framer-motion";
+
+// Importa los íconos de plataformas de videojuegos
+import { SiWindows, SiPlaystation, SiXbox } from "react-icons/si";
 
 const NavBar = () => {
-  const gradient = "linear-gradient(45deg, #00FFFF, #00CCFF, #0066FF, #8A2BE2)";
-  const textColor = ["#00FFFF", "#00CCFF", "#0066FF", "#8A2BE2"];
-  const boxColor = "#131630";
+  const { cart } = useCartContext();
 
   return (
-    <Box bg={boxColor} color="white" py={4} px={8}>
-      <Flex justify="space-between" align="center">
-        <Text fontFamily="Inter" fontWeight="bold" fontSize="3xl">
-          <span style={{ color: textColor[0] }}>S</span>
-          <span style={{ color: textColor[1] }}>p</span>
-          <span style={{ color: textColor[2] }}>a</span>
-          <span style={{ color: textColor[3] }}>r</span>
-          <span style={{ color: textColor[3] }}>k </span>
-          <span style={{ color: textColor[0] }}>G</span>
-          <span style={{ color: textColor[1] }}>a</span>
-          <span style={{ color: textColor[2] }}>m</span>
-          <span style={{ color: textColor[3] }}>e</span>
-          <span style={{ color: textColor[3] }}>r</span>
-        </Text>
-        <Flex>
-          <Link mx={2} fontSize="sm" fontWeight="bold" color="white" href="#">
+    <Box bg="blue.600" color="white" py={4} px={8}>
+      <Flex alignItems="center">
+        {/* Logo */}
+        <Box
+          mr={4}
+          _hover={{ transform: "scale(1.05)" }}
+          transition="transform 0.3s ease"
+        >
+          <Link to="/">
+            <Image src="/assets/logo.png" alt="Spark Gamer" h={14} />
+          </Link>
+        </Box>
+        {/* Navigation Links */}
+        <Flex flexGrow={1} justifyContent="center" fontSize="18px">
+          <NavLink to="/category/1">
+            <SiWindows style={{ marginRight: "5px" }} />
             Juegos PC
-          </Link>
-          <Link mx={2} fontSize="sm" fontWeight="bold" color="white" href="#">
+          </NavLink>
+          <NavLink to="/category/2">
+            <SiPlaystation style={{ marginRight: "5px" }} />
             Juegos PS5
-          </Link>
-          <Link mx={2} fontSize="sm" fontWeight="bold" color="white" href="#">
+          </NavLink>
+          <NavLink to="/category/3">
+            <SiPlaystation style={{ marginRight: "5px" }} />
             Juegos PS4
-          </Link>
-          <Link mx={2} fontSize="sm" fontWeight="bold" color="white" href="#">
+          </NavLink>
+          <NavLink to="/category/4">
+            <SiXbox style={{ marginRight: "5px" }} />
             Juegos Xbox
-          </Link>
-          <CartWidget />
+          </NavLink>
         </Flex>
+        {/* Cart */}
+        <NavLink to="/cart" position="relative">
+          <motion.div
+            whileHover={{ scale: 1.2, rotate: 5 }}
+            whileTap={{ scale: 0.8 }}
+          >
+            <FiShoppingCart size={30} color="white" />
+          </motion.div>
+          {cart.length > 0 && (
+            <Box
+              position="absolute"
+              top="14px"
+              right="26px"
+              bg="red.500"
+              color="white"
+              borderRadius="full"
+              padding="1px 8px"
+              fontSize="12px"
+              fontWeight="bold"
+            >
+              {cart.length}
+            </Box>
+          )}
+        </NavLink>
       </Flex>
     </Box>
+  );
+};
+
+const NavLink = ({ to, children, ...rest }) => {
+  return (
+    <Link
+      to={to}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        margin: "0 16px",
+        fontWeight: "bold",
+        color: "white",
+        textDecoration: "none",
+        fontFamily: "Arial, sans-serif",
+        textTransform: "uppercase",
+        letterSpacing: "1px",
+        transition: "color 0.3s",
+      }}
+      {...rest}
+    >
+      {children}
+    </Link>
   );
 };
 

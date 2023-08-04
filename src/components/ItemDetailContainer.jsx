@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Box, Text, Grid } from "@chakra-ui/react";
-import Item from "./Item";
 import { useParams } from "react-router-dom";
+import ItemDetailPage from "./ItemDetailPage";
+import { Box, Text, Center, Spinner } from "@chakra-ui/react";
 
 const mockItems = [
   {
@@ -126,59 +126,37 @@ const mockItems = [
   },
 ];
 
-const ItemListContainer = ({ greeting }) => {
+const ItemDetailContainer = () => {
   const { id } = useParams();
-  const [items, setItems] = useState([]);
+  const [item, setItem] = useState(null);
 
   useEffect(() => {
-    // Filtrar los elementos por el ID de la categoría si está disponible
-    const filteredItems = id
-      ? mockItems.filter((item) => item.categoryId === id)
-      : mockItems;
-
     // Simulación de un llamado asincrónico con retraso de 2 segundos
-    const fetchItems = () => {
+    const fetchItem = () => {
       return new Promise((resolve) => {
         setTimeout(() => {
-          resolve(filteredItems);
+          const selectedItem = mockItems.find(
+            (item) => item.id === parseInt(id)
+          );
+          resolve(selectedItem);
         }, 2000);
       });
     };
 
-    fetchItems().then((data) => setItems(data));
+    fetchItem().then((itemData) => setItem(itemData));
   }, [id]);
 
   return (
-    <Box
-      p={4}
-      bgGradient="linear(to-r, teal.500, purple.600)"
-      color="white"
-      borderRadius="md"
-      boxShadow="md"
-    >
-      <Text
-        fontSize="4xl"
-        fontWeight="bold"
-        textAlign="center"
-        fontFamily="fantasy"
-        textShadow="2px 2px 4px rgba(0, 0, 0, 0.4)"
-      >
-        ¡Bienvenido a Spark Gamer!
-      </Text>
-      <Text fontSize="2xl" fontWeight="normal" textAlign="center" mt={4}>
-        Descubre una amplia selección de juegos digitales de calidad.
-      </Text>
-      <Grid
-        mt={8}
-        gap={4}
-        templateColumns="repeat(auto-fit, minmax(250px, 1fr))"
-      >
-        {items.map((item) => (
-          <Item key={item.id} item={item} />
-        ))}
-      </Grid>
+    <Box p={4}>
+      {item ? (
+        <ItemDetailPage item={item} />
+      ) : (
+        <Center height="200px">
+          <Spinner color="teal.500" size="xl" />
+        </Center>
+      )}
     </Box>
   );
 };
 
-export default ItemListContainer;
+export default ItemDetailContainer;
