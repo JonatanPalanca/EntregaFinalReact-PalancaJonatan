@@ -1,7 +1,6 @@
 import React from "react";
 import { SimpleGrid } from "@chakra-ui/react";
 import Item from "./Item";
-import { Link, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 
 const ItemList = ({ items }) => {
@@ -13,9 +12,7 @@ const ItemList = ({ items }) => {
     >
       <SimpleGrid columns={{ sm: 1, md: 2, lg: 3 }} spacing={4}>
         {items.map((item) => (
-          <Link key={item.id} to={`/item/${item.id}`}>
-            <Item item={item} />
-          </Link>
+          <Item key={item.id} item={item} />
         ))}
       </SimpleGrid>
     </motion.div>

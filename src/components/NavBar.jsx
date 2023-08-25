@@ -1,20 +1,20 @@
 import React from "react";
 import { Box, Flex, Image } from "@chakra-ui/react";
-import { FiShoppingCart } from "react-icons/fi";
+import { FiShoppingCart, FiUser } from "react-icons/fi";
 import { Link } from "react-router-dom";
-import { useCartContext } from "../CartContext";
+import { useCartContext } from "../context/CartContext";
 import { motion } from "framer-motion";
 
-// Importa los íconos de plataformas de videojuegos
 import { SiWindows, SiPlaystation, SiXbox } from "react-icons/si";
 
 const NavBar = () => {
   const { cart } = useCartContext();
 
+  const generateCategoryLink = (category) => `/category/${category}`;
+
   return (
     <Box bg="blue.600" color="white" py={4} px={8}>
       <Flex alignItems="center">
-        {/* Logo */}
         <Box
           mr={4}
           _hover={{ transform: "scale(1.05)" }}
@@ -24,26 +24,32 @@ const NavBar = () => {
             <Image src="/assets/logo.png" alt="Spark Gamer" h={14} />
           </Link>
         </Box>
-        {/* Navigation Links */}
         <Flex flexGrow={1} justifyContent="center" fontSize="18px">
-          <NavLink to="/category/1">
+          <NavLink to={generateCategoryLink("PC")}>
             <SiWindows style={{ marginRight: "5px" }} />
             Juegos PC
           </NavLink>
-          <NavLink to="/category/2">
+          <NavLink to={generateCategoryLink("PS5")}>
             <SiPlaystation style={{ marginRight: "5px" }} />
             Juegos PS5
           </NavLink>
-          <NavLink to="/category/3">
+          <NavLink to={generateCategoryLink("PS4")}>
             <SiPlaystation style={{ marginRight: "5px" }} />
             Juegos PS4
           </NavLink>
-          <NavLink to="/category/4">
+          <NavLink to={generateCategoryLink("Xbox")}>
             <SiXbox style={{ marginRight: "5px" }} />
-            Juegos Xbox
+            Juegos Xbox-One
           </NavLink>
         </Flex>
-        {/* Cart */}
+        <NavLink to="/login" position="relative">
+          <motion.div
+            whileHover={{ scale: 1.2, rotate: 5 }}
+            whileTap={{ scale: 0.8 }}
+          >
+            <FiUser size={30} color="white" />
+          </motion.div>
+        </NavLink>
         <NavLink to="/cart" position="relative">
           <motion.div
             whileHover={{ scale: 1.2, rotate: 5 }}

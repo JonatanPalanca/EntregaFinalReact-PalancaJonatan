@@ -1,7 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Button } from "@chakra-ui/react";
 
-const ItemCount = ({ stock, selectedQuantity, onQuantityChange }) => {
+const ItemCount = ({
+  stock,
+  selectedQuantity,
+  onQuantityChange,
+  addToCart,
+}) => {
+  const [showAddToCartButton, setShowAddToCartButton] = useState(true);
+
+  const handleAddToCart = () => {
+    addToCart();
+    if (selectedQuantity >= stock) {
+      setShowAddToCartButton(false);
+    }
+  };
+
   const handleIncrement = () => {
     if (selectedQuantity < stock) {
       onQuantityChange(selectedQuantity + 1);
@@ -25,6 +39,16 @@ const ItemCount = ({ stock, selectedQuantity, onQuantityChange }) => {
       <Button onClick={handleIncrement} disabled={selectedQuantity === stock}>
         +
       </Button>
+      {stock > 0 && showAddToCartButton && (
+        <Button
+          type="button"
+          colorScheme="green"
+          mr={4}
+          onClick={handleAddToCart}
+        >
+          Agregar al carro
+        </Button>
+      )}
     </Box>
   );
 };

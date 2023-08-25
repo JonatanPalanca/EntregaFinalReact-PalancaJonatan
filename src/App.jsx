@@ -4,8 +4,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import ItemListContainer from "./components/ItemListContainer";
 import ItemDetailContainer from "./components/ItemDetailContainer";
-import CartPage from "./components/CartPage";
-import { CartContextProvider } from "./CartContext";
+import { CartContextProvider } from "./context/CartContext";
+import CartWidget from "./components/CartWidget";
+import Login from "./components/Login";
+import Signup from "./components/Signup";
 
 const App = () => {
   return (
@@ -13,23 +15,20 @@ const App = () => {
       <BrowserRouter>
         <CartContextProvider>
           {" "}
-          {/* Agregamos el proveedor del contexto */}
           <div>
             <NavBar />
             <Routes>
               {/* Rutas */}
+              <Route exact path="/" element={<ItemListContainer />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
               <Route
                 exact
-                path="/"
-                element={<ItemListContainer greeting="Bienvenido" />}
-              />
-              <Route
-                exact
-                path="/category/:id"
-                element={<ItemListContainer greeting="Bienvenido" />}
+                path="/category/:categoryId"
+                element={<ItemListContainer />}
               />
               <Route exact path="/item/:id" element={<ItemDetailContainer />} />
-              <Route exact path="/cart" element={<CartPage />} />
+              <Route exact path="/cart" element={<CartWidget />} />
             </Routes>
           </div>
         </CartContextProvider>
